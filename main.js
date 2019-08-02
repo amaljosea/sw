@@ -1,9 +1,9 @@
-var worker = new Worker('worker.js');
-worker.addEventListener('message', function(e) {
-  console.log(e.data);
-})
-worker.postMessage('Happy Birthday');
-console.log("this main", this);
+// var worker = new Worker('worker.js');
+// worker.addEventListener('message', function(e) {
+//   console.log(e.data);
+// })
+// worker.postMessage('Happy Birthday');
+// console.log("this main", this);
 
 
 var request = this.indexedDB.open('EXAMPLE_DB', 1);
@@ -44,4 +44,24 @@ request.onsuccess = function(event) {
             // handle error
         };
     });
+    productsStore.count().onsuccess = function(event) {
+      console.log('[Transaction - COUNT] number of products in store', event.target.result);
+  };
+
+      // get product with id 1
+      productsStore.get(1).onsuccess = function(event) {
+        console.log('[Transaction - GET] product with id 1', event.target.result);
+    };
+
+    // update product with id 1
+    products[0].name = 'Blue Men T-shirt';
+    productsStore.put(products[0]).onsuccess = function(event) {
+        console.log('[Transaction - PUT] product with id 1', event.target.result);
+    };
+
+    // delete product with id 2
+    productsStore.delete(2).onsuccess = function(event) {
+        console.log('[Transaction - DELETE] deleted with id 2');
+    };
+    
 };
